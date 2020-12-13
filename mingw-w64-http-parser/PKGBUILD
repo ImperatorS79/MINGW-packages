@@ -11,9 +11,11 @@ pkgdesc="Parser for HTTP Request/Response written in C (mingw-w64)"
 arch=('any')
 url='https://github.com/nodejs/http-parser'
 license=('MIT')
-source=(${_realname}-${pkgver}.tar.gz::"https://github.com/nodejs/http-parser/archive/v${pkgver}.tar.gz")
+source=(${_realname}-${pkgver}.tar.gz::"https://github.com/nodejs/http-parser/archive/v${pkgver}.tar.gz"
+        "http_parser.pc")
 options=('strip' 'staticlibs')
-sha256sums=('467b9e30fd0979ee301065e70f637d525c28193449e1b13fbcb1b1fab3ad224f')
+sha256sums=('467b9e30fd0979ee301065e70f637d525c28193449e1b13fbcb1b1fab3ad224f'
+            'SKIP')
 
 prepare() {
   cd "${srcdir}/${_realname}-${pkgver}"
@@ -45,4 +47,6 @@ package() {
   install -Dm644 http_parser.h "${pkgdir}${MINGW_PREFIX}/include/http_parser.h"
   cp *.a ${pkgdir}${MINGW_PREFIX}/lib/
   cp *.dll ${pkgdir}${MINGW_PREFIX}/bin/
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/lib/pkgconfig/
+  cp "${srcdir}/http_parser.pc"  "${pkgdir}${MINGW_PREFIX}/lib/pkgconfig/http_parser.pc"
 }
